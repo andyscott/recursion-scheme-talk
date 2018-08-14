@@ -32,3 +32,4 @@ secring.asc
 result
 bazel-*
 !*.nix
+out

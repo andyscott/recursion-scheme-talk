@@ -37,7 +37,8 @@ object Main {
       //_ <- Aalii.render
       //_ <- Barberry.render
       //_ <- Cohosh.render
-      _ <- Deutzia.render
+      //_ <- Deutzia.render
+      _ <- Eucalyptus.render
     } yield ()
 
 }
@@ -180,7 +181,6 @@ object Barberry {
   }
 }
 
-
 object Cohosh {
   import ExprF.masqueradeAsExpr._
 
@@ -279,4 +279,43 @@ object Deutzia {
       .apply(attributed)
       .reverse
 
+}
+
+object Eucalyptus {
+  def render: IO[Unit] = for {
+    //_ <- steps.traverseWithIndexM((subSteps, i) =>
+    //ImgIO.render(subSteps, s"cohosh-$i"))
+    //_ <- steps.sliding(2).toList.traverseWithIndexM((subSteps, i) =>
+    //ImgIO.render(subSteps, s"cohosh-$i-${i + 1}"))
+    _ <- ImgIO.render(steps, s"eucalyptus-all")
+  } yield ()
+
+  lazy val basis = Basis[ExprF, Expr]
+  lazy val expand = basis.coalgebra.run
+  lazy val unsafeEval = Algebras.evaluateM(Map("x" -> 10)).run.andThen(_.toOption.get)
+
+  // 2x + 1
+  lazy val s0: Expr =
+    Add(
+      Prod(
+        Const(2),
+        Var("x")),
+      Const(1))
+
+  lazy val s1 = expand(s0)
+  lazy val s2 = s1.map(expand)
+  lazy val s3 = s2.map(_.map(expand))
+  lazy val s4 = s3.map(_.map(eek => unsafeEval(eek.asInstanceOf[ExprF[BigDecimal]])))
+  lazy val s5 = s4.map(unsafeEval)
+  lazy val s6 = unsafeEval(s5)
+
+  val steps = List(
+    s0.refTree,
+    s1.refTree,
+    s2.refTree,
+    s3.refTree,
+    s4.refTree,
+    s5.refTree,
+    s6.refTree
+  )
 }
