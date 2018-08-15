@@ -1,0 +1,13 @@
+- smooth off the slide/explanation transition from cata to hylo
+
+- address: why should we bother using recursion schemes?
+  note-- the talk goal isn't to answer this, it's just to explain the
+  basics in a fun way. However, some context would be good.
+
+- maybe focus more on examples such as pretty printing
+
+- add examples of directly calling unwrap/step functions on some data
+
+- :thumbsup: for teasers and pointers to other material for further learning
+  about specific areas/topics (like fix/cofree/free, or the more "advanced"
+  schems)
